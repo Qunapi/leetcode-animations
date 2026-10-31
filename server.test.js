@@ -27,7 +27,7 @@ test('shared server serves deep pages, isolates public files, and keeps the choo
    const page=await fetch(url+'/');assert.equal(page.status,200);const document=await page.text();assert.match(document,/href="\/"/);assert.match(document,/"three":"\/node_modules\/three\/build\/three.module.js"/);
    for(const file of task.files){const response=await fetch(`${url}/${file}`);assert.equal(response.status,200,`${task.slug}/${file}`);if(file.endsWith('.js'))assert.match(response.headers.get('content-type'),/text\/javascript/);}
   }
-  for(const path of ['/node_modules/three/build/three.module.js','/node_modules/three/build/three.core.js','/node_modules/three/examples/jsm/controls/OrbitControls.js'])assert.equal((await fetch(base+path)).status,200);
+  for(const path of ['/explorer-ui.js','/explorer-scene.js','/explorer.css','/node_modules/three/build/three.module.js','/node_modules/three/build/three.core.js','/node_modules/three/examples/jsm/controls/OrbitControls.js'])assert.equal((await fetch(base+path)).status,200);
   for(const path of ['/package.json','/server.mjs','/.git/config','/leetcode-51-n-queens/solver.test.js','/leetcode-127-word-ladder/README.md','/node_modules/three/package.json','/%2e%2e/package.json','/unknown-task/'])assert.equal((await fetch(base+path)).status,404,path);
   assert.equal((await fetch(base,{method:'POST'})).status,405);
   const head=await fetch(base,{method:'HEAD'});assert.equal(head.status,200);assert.equal(await head.text(),'');

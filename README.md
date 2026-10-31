@@ -28,3 +28,9 @@ The server allows only root UI files, registered task public files, and the requ
 ## Verification
 
 `npm test` runs all task solver tests plus shared server tests for page/module routes, deep links, access restrictions, and the chooser's lightweight import graph. The browser executes instrumented JavaScript generators; C# is displayed for instruction. WebGL is needed for 3D. Source HTML must be opened through the server rather than `file://`.
+
+Additional pages:
+- [295 · Find Median from Data Stream](http://127.0.0.1:5173/leetcode-295-find-median-from-data-stream/) — two heaps, transfers, balancing, and median queries, with C# code.
+- [642 · Design Search Autocomplete System](http://127.0.0.1:5173/leetcode-642-design-search-autocomplete-system/) — prefix trie, ranked suggestions, dead prefixes, and sentence learning, with C# code.
+
+These pages load the shared `explorer-ui.js`, `explorer-scene.js`, and `explorer.css` only after navigation. The chooser remains metadata-only.

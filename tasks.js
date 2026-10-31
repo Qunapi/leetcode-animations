@@ -18,4 +18,16 @@ export const tasks = [
     features:['Rocky island','Animated water','Two methods'],
     files:['index.html','main.js','style.css','solver.js','island.js','code.js'],
   },
+  {
+    number:295,slug:'leetcode-295-find-median-from-data-stream',title:'Find Median from Data Stream',difficulty:'Hard',category:'Two heaps',language:'C#',symbol:'½',
+    description:'Insert numbers, restore heap order, balance two halves, and read the median from their roots.',
+    features:['Animated heaps','Transfers & swaps','Live medians'],
+    files:['index.html','main.js','style.css','solver.js','code.js'],
+  },
+  {
+    number:642,slug:'leetcode-642-design-search-autocomplete-system',title:'Design Search Autocomplete System',difficulty:'Hard',category:'Trie',language:'C#',symbol:'⌘',
+    description:'Walk a prefix trie, rank sentence counts, and learn new sentences when you commit with #.',
+    features:['Prefix trie','Top three ranking','Learn new sentences'],
+    files:['index.html','main.js','style.css','solver.js','code.js'],
+  },
 ];
