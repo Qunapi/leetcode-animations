@@ -7,3 +7,5 @@ The C# panel follows the supplied trie solution: one global frequency dictionary
 Play, step, back, restart, change speed, or skip initialization. Edit seed sentence/frequency pairs and input keys. After playback, enter individual keys to keep learning. Spaces are preserved and shown as ␠ in the trie.
 
 To keep the visualization readable, inputs are limited to six seed sentences, 16 characters per sentence/prefix, 32 scripted keys, and 64 total keys before restart. Tests cover ranking, duplicate counts, dead cursors, commit, and learning.
+
+The trie grows vertically from root, with enlarged nodes/labels and a camera fitted to the current tree. Reset view refits the tree; drag and zoom remain available.

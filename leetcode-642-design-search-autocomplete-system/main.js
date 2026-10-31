@@ -2,13 +2,13 @@ import {EXAMPLES,validateConfig,AutocompleteTrace} from './solver.js';
 import {source,codeKey} from './code.js';
 import {mountCode,createPlayback} from '/explorer-ui.js';
 import {createScene} from '/explorer-scene.js';
-const $=id=>document.getElementById(id),view=createScene(),highlight=mountCode(source),display=s=>s===null?'null':s===''?'root':s.replaceAll(' ','␠');
+const $=id=>document.getElementById(id),view=createScene({fitContent:true,nodeRadius:.23,labelSize:84}),highlight=mountCode(source),display=s=>s===null?'null':s===''?'root':s.replaceAll(' ','␠');
 let config=validateConfig(EXAMPLES.classic),trace,extra='';
 function render(s){
  const map=new Map(s.nodes.map(n=>[n.prefix,n])),positions=new Map();let leaf=0;
  function layout(prefix){const node=map.get(prefix),ys=node.children.map(c=>layout(prefix+c));const y=ys.length?ys.reduce((a,b)=>a+b,0)/ys.length:leaf++;positions.set(prefix,y);return y;}layout('');
- const depth=Math.max(...s.nodes.map(n=>n.prefix.length)),spacing=Math.min(1,6/Math.max(1,leaf-1)),focus=s.active;
- view.update(s.nodes.map(n=>({id:n.prefix,text:display(n.key),position:[n.prefix.length*.55-depth*.275,(positions.get(n.prefix)-(leaf-1)/2)*spacing,0],color:n.prefix===focus&&s.dead?'#ed919d':n.prefix===focus&&s.type==='create'?'#e9c27f':n.prefix===focus&&s.type.startsWith('top')?'#a5e2c5':focus.startsWith(n.prefix)?'#8dcced':'#71899f',active:n.prefix===focus})),s.nodes.filter(n=>n.parent!==null).map(n=>[n.parent,n.prefix]));
+ const depth=Math.max(...s.nodes.map(n=>n.prefix.length)),spacing=2.2,focus=s.active;
+ view.update(s.nodes.map(n=>({id:n.prefix,text:display(n.key),position:[(positions.get(n.prefix)-(leaf-1)/2)*spacing,depth*.4-n.prefix.length*.8,0],color:n.prefix===focus&&s.dead?'#ed919d':n.prefix===focus&&s.type==='create'?'#e9c27f':n.prefix===focus&&s.type.startsWith('top')?'#a5e2c5':focus.startsWith(n.prefix)?'#8dcced':'#71899f',active:n.prefix===focus})),s.nodes.filter(n=>n.parent!==null).map(n=>[n.parent,n.prefix]));
  $('nodes').textContent=s.nodes.length;$('dead-flag').textContent=s.dead;$('dead-flag').style.color=s.dead?'#ed919d':'';$('calls').textContent=s.responses.length;$('buffer').textContent=`buffer: ${JSON.stringify(s.buffer)}`;$('cursor').textContent=`curr: ${display(s.curr)}`;$('trie-title').textContent=`Prefix: ${display(focus)}`;$('count-prefix').textContent=display(focus);
  const frequencies=new Map(s.frequency),counts=map.get(focus).top.map(sentence=>[sentence,frequencies.get(sentence)]);
  $('frequencies').replaceChildren(...s.frequency.map(([sentence,count])=>{const row=document.createElement('div');row.className='count-row';row.textContent=`${JSON.stringify(sentence)} · ${count}`;return row;}));
