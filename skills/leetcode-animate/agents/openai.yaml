@@ -1,0 +1,4 @@
+interface:
+  display_name: "LeetCode Animate"
+  short_description: "Add a lazy-loaded LeetCode animation page"
+  default_prompt: "Use $leetcode-animate to add my LeetCode solution as a page in Algorithm Lab; ask for my solution and display language."
