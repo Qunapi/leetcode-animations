@@ -1,14 +1,9 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { tasks } from './tasks.js';
+import {publicFiles} from './public-files.js';
 
-const files=new Set([
-  '/index.html','/chooser.js','/chooser.css','/tasks.js','/navigation.css','/explorer.css','/explorer-ui.js','/explorer-scene.js',
-  '/node_modules/three/build/three.module.js',
-  '/node_modules/three/build/three.core.js',
-  '/node_modules/three/examples/jsm/controls/OrbitControls.js',
-  ...tasks.flatMap(task=>task.files.map(file=>`/${task.slug}/${file}`)),
-]);
+const files=new Set(publicFiles);
 const folders=new Set(tasks.map(task=>`/${task.slug}`));
 const types={html:'text/html',js:'text/javascript',css:'text/css'};
 const server=createServer(async(req,res)=>{

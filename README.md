@@ -34,3 +34,9 @@ Additional pages:
 - [642 · Design Search Autocomplete System](http://127.0.0.1:5173/leetcode-642-design-search-autocomplete-system/) — prefix trie, ranked suggestions, dead prefixes, and sentence learning, with C# code.
 
 These pages load the shared `explorer-ui.js`, `explorer-scene.js`, and `explorer.css` only after navigation. The chooser remains metadata-only.
+
+## GitHub Pages
+
+Pushes to `main` run `.github/workflows/pages.yml`: install dependencies, test, package the static site, and deploy it to GitHub Pages. Pages must use the **GitHub Actions** publishing source.
+
+`npm run build` copies only the public file allowlist to `dist/`. For a project site, use `BASE_PATH=/leetcode-animations npm run build`; the packaging step adjusts root-relative asset URLs and navigation without bundling modules. The chooser still loads only metadata. Local development remains `npm start`.
