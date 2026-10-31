@@ -2,7 +2,7 @@
 
 Run `npm start` from the repository root, then open `/leetcode-642-design-search-autocomplete-system/`.
 
-The C# panel follows the supplied trie solution: counts at every prefix, descending frequency with ordinal lexical ties, dead state until #, and learning the entire committed buffer.
+The C# panel follows the supplied trie solution: one global frequency dictionary, cached Top lists at every node including root, ordinal lexical ties, current = null on a missing child, and learning a nonempty committed buffer. UpdateTop animates candidate insertion, sorting, and fourth-place eviction. Input copies the cached list without sorting. Duplicate seed frequencies use the last assignment, matching the supplied constructor.
 
 Play, step, back, restart, change speed, or skip initialization. Edit seed sentence/frequency pairs and input keys. After playback, enter individual keys to keep learning. Spaces are preserved and shown as ␠ in the trie.
 
