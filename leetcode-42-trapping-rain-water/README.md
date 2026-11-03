@@ -7,3 +7,5 @@ From the repository root: `npm ci`, `npm start`, `npm test`. Open the task throu
 Play/Pause, Back, Step, Restart, and Speed control the timeline. Back restores previous water levels. Examples include classic, deep basin, flat, single, and empty inputs. Custom comma-separated heights or JSON arrays accept 0–32 integers in [0,20]. Changing input resets playback. Rain can be toggled, and reduced-motion preferences disable falling/filling animation. The camera fits the row on narrow screens.
 
 Solver events are generated lazily and copied for playback. The source algorithm uses O(n) time and O(1) extra space; the visualization stores per-cell levels and historical snapshots.
+
+Wet cells have animated wave crests and expanding ripple patterns, with small surface displacement bounded by water depth. Back/Restart hide waves as cells drain; reduced motion freezes the patterns. A beveled, grey granite-textured stone slab supports the one-dimensional row.
