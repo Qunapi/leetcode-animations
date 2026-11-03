@@ -1,6 +1,12 @@
 // Metadata and public file names only: never import task implementations here.
 export const tasks = [
   {
+    number:42,slug:'leetcode-42-trapping-rain-water',title:'Trapping Rain Water',difficulty:'Hard',category:'Two pointers',language:'JavaScript',symbol:'☂',
+    description:'Rain over every column. Follow inward pointers and fill trapped water to its exact boundary level.',
+    features:['Animated rainfall','Per-cell water levels','Two pointers'],
+    files:['index.html','main.js','style.css','solver.js','code.js'],
+  },
+  {
     number:51,slug:'leetcode-51-n-queens',title:'N-Queens',difficulty:'Hard',category:'Backtracking',language:'C#',symbol:'♛',
     description:'Place, explore, and undo. Watch the board and constraint sets change with each recursive step.',
     features:['3D chessboard','Constraint sets','Backtracking'],

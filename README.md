@@ -11,6 +11,8 @@ Open http://127.0.0.1:5173/. Use `PORT=5174 npm start` if needed. Run these comm
 
 ## Tasks
 
+- 42 — Trapping Rain Water: JavaScript two-pointer solution with per-column rain, exact water levels, live maxima, and reversible playback.
+
 - [51 — N-Queens](http://127.0.0.1:5173/leetcode-51-n-queens/): recursion, row/column/diagonal threats, constraint sets, and animated placement/removal.
 - [127 — Word Ladder](http://127.0.0.1:5173/leetcode-127-word-ladder/): wildcard buckets, word graph, BFS levels, list queue/head, and shortest ladder.
 - [417 — Pacific Atlantic Water Flow](http://127.0.0.1:5173/leetcode-417-pacific-atlantic-water-flow/): downhill brute force and the supplied reverse BFS, with rain, waves, persistent BFS discovery streams, and two labeled oceans.
