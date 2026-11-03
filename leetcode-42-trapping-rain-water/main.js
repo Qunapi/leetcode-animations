@@ -1,6 +1,6 @@
-import {createRainScene} from './scene.js?v=high-waves-5';
-import {EXAMPLES,validateHeights,trapSteps} from './solver.js?v=high-waves-5';
-import {source,lines} from './code.js?v=high-waves-5';
+import {createRainScene} from './scene.js?v=big-labels-arrows-6';
+import {EXAMPLES,validateHeights,trapSteps} from './solver.js?v=big-labels-arrows-6';
+import {source,lines} from './code.js?v=big-labels-arrows-6';
 import {mountCode,createPlayback} from '/explorer-ui.js';
 const $=id=>document.getElementById(id),highlight=mountCode(source);
 let heights=[...EXAMPLES.classic];
