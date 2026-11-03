@@ -77,8 +77,8 @@ export function createRainScene(host){
   s.height.forEach((h,i)=>{const x=i-(s.height.length-1)/2,rockMesh=mesh(.94,Math.max(.02,h*scale),.94,rock,x,h*scale/2);
    const water=mesh(.94,1,.94,new THREE.MeshPhysicalMaterial({color:0x389dce,transparent:true,opacity:.52,roughness:.18,metalness:.08,depthWrite:false}),x,h*scale);
    const surface=new THREE.Mesh(new THREE.PlaneGeometry(.94,.94,16,16),waveMaterial(i*.73));surface.rotation.x=-Math.PI/2;surface.position.set(x,h*scale+.01,0);root.add(surface);
-   const index=label(`${i}\nh=${h}`,'#e7e3d8',.48);index.position.set(x,-.9,.6);root.add(index);
-   const count=label('','#bbf3ff',.48);root.add(count);
+   const index=label(`${i}\nh=${h}`,'#e7e3d8',.33);index.position.set(x,-.9,.6);root.add(index);
+   const count=label('','#bbf3ff',.33);root.add(count);
    const outline=new THREE.BoxHelper(rockMesh,0xf7d58f);root.add(outline);
    cells.push({x,h,water,surface,count,outline,current:0,target:0});
   });
@@ -91,7 +91,7 @@ export function createRainScene(host){
   resetCamera();
  }
  function update(s){pointerState=s;const key=s.height.join(',');if(signature!==key||!rainLines){signature=key;rebuild(s);}
-  cells.forEach((c,i)=>{c.target=s.water[i]*scale;c.outline.visible=s.active===i;c.count.visible=!!s.water[i];const text=`+${s.water[i]}`;if(c.count.userData.text!==text){const replacement=label(text,'#c7f6ff',.48);c.count.material.map.dispose();c.count.material.dispose();c.count.material=replacement.material;c.count.userData={...replacement.userData};c.count.userData.text=text;}});
+  cells.forEach((c,i)=>{c.target=s.water[i]*scale;c.outline.visible=s.active===i;c.count.visible=!!s.water[i];const text=`+${s.water[i]}`;if(c.count.userData.text!==text){const replacement=label(text,'#c7f6ff',.33);c.count.material.map.dispose();c.count.material.dispose();c.count.material=replacement.material;c.count.userData={...replacement.userData};c.count.userData.text=text;}});
   const levels=[s.lMax,s.rMax,s.height.length?Math.min(s.lMax,s.rMax):undefined];
   guides.forEach((g,i)=>{const level=levels[i];g.line.visible=g.tag.visible=level!==undefined;if(level===undefined)return;g.line.position.y=level*scale+.025;g.tag.position.set(i===1?width/2+.3:-width/2-.3,level*scale+.35,i===2?1.4:-1.1);const text=`${g.name}: ${level}`;if(g.tag.userData.text!==text){const tag=label(text,['#a2e5cc','#c3a6ef','#f7d58f'][i],.6);g.tag.material.map.dispose();g.tag.material.dispose();g.tag.material=tag.material;g.tag.userData={...tag.userData};g.tag.userData.text=text;}});
  }
