@@ -39,7 +39,7 @@ export function createRainScene(host){
   transparent:true,depthWrite:false,side:THREE.DoubleSide,
   uniforms:{uTime:waveTime,uPhase:{value:phase},uAmplitude:{value:0}},
   vertexShader:`uniform float uTime;uniform float uPhase;uniform float uAmplitude;varying vec2 vUv;
-   void main(){vUv=uv;vec3 p=position;float edge=sin(uv.x*3.14159265)*sin(uv.y*3.14159265);p.z+=sin(uv.x*12.0+uTime*2.7+uPhase)*cos(uv.y*9.0-uTime*1.9)*uAmplitude*edge;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);}`,
+   void main(){vUv=uv;vec3 p=position;float edge=sin(uv.x*3.14159265)*sin(uv.y*3.14159265);p.z+=sin(uv.x*7.0+uTime*2.7+uPhase)*cos(uv.y*6.0-uTime*1.9)*uAmplitude*edge;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);}`,
   fragmentShader:`uniform float uTime;uniform float uPhase;varying vec2 vUv;
    void main(){float sweep=sin(vUv.x*18.0+vUv.y*8.0-uTime*3.2+uPhase);float ripple=sin(length(vUv-vec2(0.45,0.55))*48.0-uTime*4.0+uPhase);float foam=smoothstep(0.72,1.0,sweep)*0.52+smoothstep(0.86,1.0,ripple)*0.35;vec3 color=mix(vec3(0.10,0.49,0.68),vec3(0.78,0.97,1.0),min(foam,0.85));gl_FragColor=vec4(color,0.78);
    #include <colorspace_fragment>
@@ -84,7 +84,7 @@ export function createRainScene(host){
  let last=0;
  function frame(t){requestAnimationFrame(frame);const dt=Math.min(.1,(t-last)/1000);last=t;const time=reduced.matches?0:t/1000;waveTime.value=time;
   cells.forEach(c=>{c.current=reduced.matches?c.target:THREE.MathUtils.damp(c.current,c.target,12,dt);c.water.visible=c.surface.visible=c.current>.001;c.water.scale.y=Math.max(.001,c.current);c.water.position.y=c.h*scale+c.current/2;c.surface.position.y=c.h*scale+c.current+.012;c.count.position.set(c.x,c.h*scale+c.current+.25,.15);c.pointer.position.set(c.x,c.h*scale+c.current+.8,0);
-   c.surface.material.uniforms.uAmplitude.value=reduced.matches?0:Math.min(.035,c.current*.12,scale*.06);
+   c.surface.material.uniforms.uAmplitude.value=reduced.matches?0:Math.min(.28,c.current*.35,scale*.35);
   });
   if(rainLines){rainLines.visible=rain;const p=rainLines.geometry.attributes.position;cells.forEach((c,j)=>{for(let i=0;i<12;i++){const phase=(time*.8+i*.618+j*.13)%1,top=c.h*scale+c.current,y=top+.1+(1-phase)*(6-top);p.setXYZ((j*12+i)*2,c.x+Math.sin(i*127.1)*.4,y,Math.cos(i*71.7)*.4);p.setXYZ((j*12+i)*2+1,c.x+Math.sin(i*127.1)*.4+.02,y+.14,Math.cos(i*71.7)*.4);}});p.needsUpdate=true;}
   controls.update();renderer.render(scene,camera);
