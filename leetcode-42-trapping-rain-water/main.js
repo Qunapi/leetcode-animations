@@ -1,6 +1,6 @@
-import {createRainScene} from './scene.js';
-import {EXAMPLES,validateHeights,trapSteps} from './solver.js';
-import {source,lines} from './code.js';
+import {createRainScene} from './scene.js?v=3d-levels-2';
+import {EXAMPLES,validateHeights,trapSteps} from './solver.js?v=3d-levels-2';
+import {source,lines} from './code.js?v=3d-levels-2';
 import {mountCode,createPlayback} from '/explorer-ui.js';
 const $=id=>document.getElementById(id),highlight=mountCode(source);
 let heights=[...EXAMPLES.classic];
