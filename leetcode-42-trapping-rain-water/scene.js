@@ -20,7 +20,21 @@ export function createRainScene(host){
  }
  function mesh(w,h,d,material,x,y,z=0){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);m.position.set(x,y,z);root.add(m);return m;}
  function dispose(){const geometry=new Set(),materials=new Set(),maps=new Set();root.traverse(o=>{if(o.geometry)geometry.add(o.geometry);for(const m of o.material?[o.material].flat():[]){materials.add(m);if(m.map)maps.add(m.map);}});geometry.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());maps.forEach(m=>m.dispose());root.clear();}
- function stoneTexture(){const canvas=document.createElement('canvas');canvas.width=canvas.height=128;const ctx=canvas.getContext('2d');ctx.fillStyle='#ac9c83';ctx.fillRect(0,0,128,128);for(let y=0;y<128;y+=4){ctx.strokeStyle=y%12?'#a18e76':'#7c6e5d';ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(128,y+Math.sin(y)*4);ctx.stroke();}const t=new THREE.CanvasTexture(canvas);t.colorSpace=THREE.SRGBColorSpace;return t;}
+ function stoneTexture(){
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#7c858c';ctx.fillRect(0,0,256,256);let seed=83;
+  function random(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;}
+  // Irregular mineral patches and fine grain avoid the old horizontal wood-like bands.
+  for(let i=0;i<8500;i++){
+   const shade=70+Math.floor(random()*100);ctx.fillStyle=`rgba(${shade},${shade+5},${shade+10},${.15+random()*.5})`;
+   ctx.beginPath();ctx.ellipse(random()*256,random()*256,.5+random()*5,.5+random()*3,random()*Math.PI,0,Math.PI*2);ctx.fill();
+  }
+  for(let i=0;i<9;i++){
+   let x=random()*256,y=random()*256;ctx.strokeStyle='rgba(40,49,57,.35)';ctx.lineWidth=.5+random();ctx.beginPath();ctx.moveTo(x,y);
+   for(let j=0;j<7;j++){x+=(random()-.5)*32;y+=8+random()*14;ctx.lineTo(x,y);}ctx.stroke();
+  }
+  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture;
+ }
  function waveMaterial(phase){return new THREE.ShaderMaterial({
   transparent:true,depthWrite:false,side:THREE.DoubleSide,
   uniforms:{uTime:waveTime,uPhase:{value:phase},uAmplitude:{value:0}},
@@ -44,7 +58,7 @@ export function createRainScene(host){
  }
  function resetCamera(){const targetY=1.5,distance=Math.max(10,(width+5)/(2*Math.tan(THREE.MathUtils.degToRad(19))*camera.aspect)*1.1);camera.position.set(width*.06,targetY+distance*.38,distance);controls.target.set(0,targetY,0);controls.update();}
  function rebuild(s){dispose();width=Math.max(1,s.height.length);scale=4/Math.max(4,...s.height);cells=[];guides=[];
-  const texture=stoneTexture(),rock=new THREE.MeshStandardMaterial({map:texture,roughness:1,color:0xb3a28a});
+  const texture=stoneTexture(),rock=new THREE.MeshStandardMaterial({map:texture,bumpMap:texture,bumpScale:.065,roughness:1,color:0xc4cbd0});
   stoneStand();
   s.height.forEach((h,i)=>{const x=i-(s.height.length-1)/2,rockMesh=mesh(.94,Math.max(.02,h*scale),.94,rock,x,h*scale/2);
    const water=mesh(.94,1,.94,new THREE.MeshPhysicalMaterial({color:0x389dce,transparent:true,opacity:.52,roughness:.18,metalness:.08,depthWrite:false}),x,h*scale);
