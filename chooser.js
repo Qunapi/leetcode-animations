@@ -12,7 +12,7 @@ for(const task of tasks){
   const title=document.createElement('h3');title.textContent=task.title;
   const description=document.createElement('p');description.textContent=task.description;
   const tags=document.createElement('div');tags.className='tags';for(const feature of task.features){const tag=document.createElement('span');tag.textContent=feature;tags.append(tag);}
-  const bottom=document.createElement('div');bottom.className='card-bottom';const language=document.createElement('span');language.textContent=`${task.language} · Interactive 3D`;const action=document.createElement('strong');action.textContent='Open explorer ↗';bottom.append(language,action);
+  const bottom=document.createElement('div');bottom.className='card-bottom';const language=document.createElement('span');language.textContent=`${task.language}`;const action=document.createElement('strong');action.textContent='Open explorer ↗';bottom.append(language,action);
   body.append(meta,title,description,tags,bottom);link.append(art,body);list.append(link);
 }
 function filter(){let count=0;for(const card of list.children){card.hidden=!card.dataset.search.includes(search.value.trim().toLowerCase());if(!card.hidden)count++;}document.getElementById('task-count').textContent=String(count).padStart(2,'0');document.getElementById('empty').hidden=count!==0;}
