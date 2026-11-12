@@ -33,7 +33,7 @@
 #values { width: 12ch; }
 #error { color: #ff9eae; }
 #error:empty { display: none; }
-#results {
+#results, #missing {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 16px;
@@ -43,3 +43,33 @@
   color: var(--green);
 }
 #results:empty { display: none; }
+
+#indices { color: var(--blue); font-size: 12px; }
+#missing { color: #ff9eae; }
+#missing li:last-child { animation: reveal-missing .3s ease-out; }
+@keyframes reveal-missing {
+  from { opacity: .25; transform: translateY(4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #missing li:last-child { animation: none; }
+}
+.tree-help { padding: 0 22px; }
+
+main { max-width: none; padding-inline: clamp(12px, 2vw, 40px); }
+#scene { height: clamp(250px, 38vh, 420px); }
+.tree-panel .panel-top, .tree-panel .playback { padding-block: 10px; }
+.tree-panel .status { min-height: 42px; padding-block: 8px; }
+#array { padding-block: 16px; }
+
+.tree-panel .legend .idle { background: #527ba7; --card-fill: #14283e; }
+.tree-panel .legend .current { background: #39dcff; --card-fill: #00546d; }
+.tree-panel .legend .stack-parent { background: #ffc53b; --card-fill: #694405; }
+.tree-panel .legend .visited { background: #bb7aff; --card-fill: #48267c; }
+.tree-panel .legend .goal { background: #50ef86; --card-fill: #075632; }
+.tree-panel .legend .jump { background: #ff526d; --card-fill: #7c1634; }
+.tree-panel .legend .ghost { background: #9399a3; --card-fill: #333841; }
+
+#mode { display: flex; gap: 4px; }
+#mode button { white-space: nowrap; padding-inline: 8px; font-family: monospace; }
+#mode button[aria-pressed="true"] { background: var(--purple); border-color: var(--purple); color: #2a203d; }
+.tree-panel .legend .swap { background: #50c7bd; --card-fill: #17433f; }

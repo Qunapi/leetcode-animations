@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Permutations · Algorithm Lab</title>
+  <script type="importmap">
+  {"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}
+  </script>
   <link rel="stylesheet" href="/explorer.css">
   <link rel="stylesheet" href="/navigation.css">
   <link rel="stylesheet" href="./style.css">
@@ -21,9 +24,8 @@
   </section>
   <div class="workspace">
     <div class="left">
-      <section class="panel">
-        <div class="panel-top"><h2>Working array</h2></div>
-        <ol id="array" aria-label="Working array"></ol>
+      <section class="panel tree-panel">
+        <div class="panel-top"><h2>Recursion tree</h2><button id="camera">Reset view</button></div>
         <div class="playback">
           <div class="transport">
             <button id="restart" aria-label="Restart">↺</button>
@@ -34,10 +36,30 @@
           <label class="speed">Speed <input id="speed" type="range" min="1" max="20" value="4"><output id="speed-value">4×</output></label>
         </div>
         <div class="status"><span id="status" aria-live="polite"></span><span id="step-count"></span></div>
+        <div id="scene" role="img" aria-label="3D recursion tree. Drag to orbit and scroll to zoom."></div>
+        <p class="hint tree-help">Each card shows the array at call entry, the call’s <code>start</code> and the parent loop’s <code>i</code>. Drag to orbit or scroll to zoom.</p>
+        <div class="legend">
+          <span><i class="idle"></i>Unvisited</span>
+          <span><i class="current"></i>Current call</span>
+          <span><i class="stack-parent"></i>Caller on stack</span>
+          <span><i class="visited"></i>Visited</span>
+          <span><i class="goal"></i>Saved</span>
+          <span><i class="jump"></i>Caller skipped indices</span>
+          <span><i class="swap"></i>Shared swap</span>
+          <span><i class="ghost"></i>Unvisited in this mode</span>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-top"><h2>Working array</h2><code id="indices"></code></div>
+        <ol id="array" aria-label="Working array"></ol>
       </section>
       <section class="card">
         <div class="section-heading"><h2>Permutations found</h2><span id="count"></span></div>
         <ul id="results"></ul>
+        <div id="missing-panel" hidden>
+          <h2>Missing permutations</h2>
+          <ul id="missing"></ul>
+        </div>
       </section>
     </div>
     <aside>
@@ -49,9 +71,13 @@
           <button>Apply</button>
           <p id="error" class="hint" role="alert"></p>
         </form>
-        <label class="setting-line">Next recursive index
-          <select id="mode"><option value="start">start + 1</option><option value="i">i + 1</option></select>
-        </label>
+        <div class="setting-line">
+          <span id="mode-label">Next recursive index</span>
+          <div id="mode" role="group" aria-labelledby="mode-label">
+            <button type="button" value="start" aria-pressed="true">start + 1</button>
+            <button type="button" value="i" aria-pressed="false">i + 1</button>
+          </div>
+        </div>
         <p class="hint">The swap fills slot <code>start</code>. When <code>i &gt; start</code>, advancing to <code>i + 1</code> skips slots that still need their own choices.</p>
       </section>
       <section class="card">

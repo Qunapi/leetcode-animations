@@ -28,3 +28,27 @@ export function createPlayback(makeIterator,render,ready=null){
  requestAnimationFrame(tick);
  return{reset,get state(){return state;},get atEnd(){return cursor===history.length-1&&state.type==='done';},append(nextIterator){if(cursor!==history.length-1||state.type!=='done')return false;iterator=nextIterator;advance();playing=state.type!=='done';$('play').textContent=playing?'Ⅱ Pause':'▶ Play';last=performance.now();return true;}};
 }
+const shortcuts = [
+  ['ArrowLeft', 'back', 'Previous step (Left Arrow)'],
+  ['ArrowRight', 'step', 'Next step (Right Arrow)'],
+  ['r', 'restart', 'Restart (R)'],
+];
+
+const buttons = new Map();
+for (const [key, id, title] of shortcuts) {
+  const button = document.getElementById(id);
+  if (!button) continue;
+  button.title = title;
+  button.setAttribute('aria-keyshortcuts', key === 'r' ? 'R' : key);
+  buttons.set(key, button);
+}
+
+document.addEventListener('keydown', event => {
+  if (event.defaultPrevented || event.isComposing || event.altKey || event.ctrlKey || event.metaKey ||
+      event.shiftKey || event.target.closest('input, select, textarea, [contenteditable], #code, #scene')) return;
+
+  const button = buttons.get(event.key.toLowerCase() === 'r' ? 'r' : event.key);
+  if (!button || button.disabled || (event.repeat && button.id === 'restart')) return;
+  event.preventDefault();
+  button.click();
+});

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-export function createScene({fitContent=false,nodeRadius=.15,labelSize=54}={}){
+export function createScene({fitContent=false,nodeRadius=.15,labelSize=54,nodeCards=false}={}){
  const host=document.getElementById('scene'),scene=new THREE.Scene();scene.background=new THREE.Color('#182b35');
  const camera=new THREE.PerspectiveCamera(40,1,.1,100);camera.position.set(0,1,14);
  let renderer;try{renderer=new THREE.WebGLRenderer({antialias:true});}catch{host.textContent='WebGL unavailable. Use the synchronized state panels below.';return{update(){},clear(){}};}
@@ -12,7 +12,58 @@ export function createScene({fitContent=false,nodeRadius=.15,labelSize=54}={}){
  function clear(){for(const item of nodes.values()){scene.remove(item.mesh);item.mesh.geometry.dispose();item.mesh.material.dispose();item.label.material.map.dispose();item.label.material.dispose();}nodes.clear();links=[];visibleCount=0;bounds=null;}
  function update(items,nextLinks){
   links=nextLinks;const visible=new Set(items.map(n=>n.id));for(const [id,n]of nodes)n.mesh.visible=visible.has(id);
-  for(const item of items){let n=nodes.get(item.id);if(!n){const mesh=new THREE.Mesh(new THREE.SphereGeometry(nodeRadius,20,16),new THREE.MeshStandardMaterial({color:item.color,roughness:.35}));const canvas=document.createElement('canvas');canvas.width=512;canvas.height=128;const ctx=canvas.getContext('2d');ctx.font=`bold ${labelSize}px monospace`;ctx.textAlign='center';ctx.fillStyle='#f0f5fa';ctx.fillText(item.text,256,78);const label=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(canvas),depthTest:false}));label.scale.set(1.8,.45,1);label.position.y=nodeRadius+.2;mesh.add(label);scene.add(mesh);n={mesh,label,target:new THREE.Vector3(...item.position)};mesh.position.copy(n.target);nodes.set(item.id,n);}n.mesh.visible=true;n.target.set(...item.position);n.mesh.material.color.set(item.color);n.mesh.scale.setScalar(item.active?1.3:1);}
+  for (const item of items) {
+   let n = nodes.get(item.id);
+   if (!n) {
+    const mesh = new THREE.Mesh(new THREE.SphereGeometry(nodeRadius,20,16), new THREE.MeshStandardMaterial({color:item.color,roughness:.35}));
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    ctx.font = `bold ${labelSize}px monospace`;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#f0f5fa';
+    ctx.fillText(item.text,256,78);
+    const map = new THREE.CanvasTexture(canvas);
+    if (nodeCards) {
+     mesh.material.visible = false;
+     map.colorSpace = THREE.SRGBColorSpace;
+     map.generateMipmaps = true;
+     map.minFilter = THREE.LinearMipmapLinearFilter;
+    }
+    const label = new THREE.Sprite(new THREE.SpriteMaterial({map,depthTest:false}));
+    label.scale.set(1.8,.45,1);
+    label.position.y = nodeCards ? 0 : nodeRadius + .2;
+    mesh.add(label);
+    scene.add(mesh);
+    n = {mesh,label,ctx,target:new THREE.Vector3(...item.position)};
+    mesh.position.copy(n.target);
+    nodes.set(item.id,n);
+   }
+   if (nodeCards && n.cardColor !== item.color) {
+    const ctx = n.ctx;
+    ctx.clearRect(0,0,512,128);
+    ctx.beginPath();
+    ctx.roundRect(8,5,496,118,22);
+    ctx.fillStyle = item.fill ?? '#192230';
+    ctx.fill();
+    ctx.strokeStyle = item.color;
+    ctx.lineWidth = 10;
+    ctx.stroke();
+    ctx.font = 'bold 65px monospace';
+    ctx.fillStyle = '#f0f5fa';
+    ctx.fillText(item.text,256,62,470);
+    ctx.font = 'bold 46px monospace';
+    ctx.fillStyle = '#c5d4e6';
+    ctx.fillText(item.detail,256,110,470);
+    n.label.material.map.needsUpdate = true;
+    n.cardColor = item.color;
+   }
+   n.mesh.visible = true;
+   n.target.set(...item.position);
+   n.mesh.material.color.set(item.color);
+   n.mesh.scale.setScalar(item.active ? 1.3 : 1);
+  }
   if(fitContent&&items.length){bounds=new THREE.Box3().setFromPoints(items.map(item=>new THREE.Vector3(...item.position)));if(items.length!==visibleCount)fit();visibleCount=items.length;}
  }
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
