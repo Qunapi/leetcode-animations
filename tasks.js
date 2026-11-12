@@ -7,6 +7,12 @@ export const tasks = [
     files:['index.html','main.js','style.css','solver.js','code.js','scene.js'],
   },
   {
+    number:46,slug:'leetcode-46-permutations',title:'Permutations',difficulty:'Medium',category:'Backtracking',language:'JavaScript',symbol:'⇄',
+    description:'Swap values into place and see which branches disappear when recursion advances from i instead of start.',
+    features:['Swap and undo','Recursion comparison','Live permutations'],
+    files:['index.html','main.js','style.css','solver.js'],
+  },
+  {
     number:51,slug:'leetcode-51-n-queens',title:'N-Queens',difficulty:'Hard',category:'Backtracking',language:'C#',symbol:'♛',
     description:'Place, explore, and undo. Watch the board and constraint sets change with each recursive step.',
     features:['3D chessboard','Constraint sets','Backtracking'],

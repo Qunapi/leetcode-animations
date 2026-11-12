@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Permutations · Algorithm Lab</title>
+  <link rel="stylesheet" href="/explorer.css">
+  <link rel="stylesheet" href="/navigation.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header>
+  <span class="brand">⇄ <span>PERMUTATIONS <b>/</b> LAB</span></span>
+  <a class="library-link" href="/">← All tasks</a>
+  <a href="https://leetcode.com/problems/permutations/">LeetCode #46 ↗</a>
+</header>
+<main>
+  <section class="intro">
+    <h1>Permutations</h1>
+    <p>Swap a candidate into the current slot, recurse, then undo the swap to try the next candidate.</p>
+  </section>
+  <div class="workspace">
+    <div class="left">
+      <section class="panel">
+        <div class="panel-top"><h2>Working array</h2></div>
+        <ol id="array" aria-label="Working array"></ol>
+        <div class="playback">
+          <div class="transport">
+            <button id="restart" aria-label="Restart">↺</button>
+            <button id="back">← Back</button>
+            <button id="play" class="primary">▶ Play</button>
+            <button id="step">Step →</button>
+          </div>
+          <label class="speed">Speed <input id="speed" type="range" min="1" max="20" value="4"><output id="speed-value">4×</output></label>
+        </div>
+        <div class="status"><span id="status" aria-live="polite"></span><span id="step-count"></span></div>
+      </section>
+      <section class="card">
+        <div class="section-heading"><h2>Permutations found</h2><span id="count"></span></div>
+        <ul id="results"></ul>
+      </section>
+    </div>
+    <aside>
+      <section class="card">
+        <h2>The experiment</h2>
+        <label class="setting-line">Examples <select id="example"><option value="1, 2, 3">Three values</option><option value="1, 2, 3, 4">Four values</option><option value="0">Single value</option><option value="" hidden>Custom</option></select></label>
+        <form id="input">
+          <label class="setting-line">Array <input id="values" value="1, 2, 3" aria-describedby="error"></label>
+          <button>Apply</button>
+          <p id="error" class="hint" role="alert"></p>
+        </form>
+        <label class="setting-line">Next recursive index
+          <select id="mode"><option value="start">start + 1</option><option value="i">i + 1</option></select>
+        </label>
+        <p class="hint">The swap fills slot <code>start</code>. When <code>i &gt; start</code>, advancing to <code>i + 1</code> skips slots that still need their own choices.</p>
+      </section>
+      <section class="card">
+        <div class="section-heading"><h2>Inside the recursion</h2><span>JavaScript</span></div>
+        <label class="hint"><input id="follow-code" type="checkbox" checked> Follow code</label>
+        <div id="code" class="code" tabindex="0"></div>
+        <div class="stack"><span>CALL STACK</span><div id="stack"></div></div>
+      </section>
+    </aside>
+  </div>
+</main>
+<script type="module" src="./main.js"></script>
+</body>
+</html>
