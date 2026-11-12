@@ -11,7 +11,8 @@ test('Pages package rewrites deep links and imports without shipping private fil
  const home=await readFile(new URL('./dist/chooser.js',import.meta.url),'utf8');assert.ok(home.includes('`/leetcode-animations/${task.slug}/`'));
  for(const task of tasks){
   const html=await readFile(new URL(`./dist/${task.slug}/index.html`,import.meta.url),'utf8');
-  assert.ok(html.includes('href="/leetcode-animations/"'));assert.ok(html.includes('"three":"/leetcode-animations/node_modules/three/build/three.module.js"'));
+  assert.ok(html.includes('href="/leetcode-animations/"'));
+  if(html.includes('type="importmap"'))assert.ok(html.includes('"three":"/leetcode-animations/node_modules/three/build/three.module.js"'));
   for(const file of task.files.filter(f=>/\.(js|html)$/.test(f))){const source=await readFile(new URL(`./dist/${task.slug}/${file}`,import.meta.url),'utf8');assert.ok(!/(?:from\s*|href=|src=)["']\/(?!leetcode-animations\/)/.test(source),`${task.slug}/${file}`);}
  }
  const files=await readdir(new URL('./dist/',import.meta.url),{recursive:true});

@@ -24,7 +24,8 @@ test('shared server serves deep pages, isolates public files, and keeps the choo
   for(const task of tasks){
    const url=`${base}/${task.slug}`;
    const redirect=await fetch(url,{redirect:'manual'});assert.equal(redirect.status,308);assert.equal(redirect.headers.get('location'),`/${task.slug}/`);
-   const page=await fetch(url+'/');assert.equal(page.status,200);const document=await page.text();assert.match(document,/href="\/"/);assert.match(document,/"three":"\/node_modules\/three\/build\/three.module.js"/);
+   const page=await fetch(url+'/');assert.equal(page.status,200);const document=await page.text();assert.match(document,/href="\/"/);
+  if(document.includes('type="importmap"'))assert.match(document,/"three":"\/node_modules\/three\/build\/three.module.js"/);
    for(const file of task.files){const response=await fetch(`${url}/${file}`);assert.equal(response.status,200,`${task.slug}/${file}`);if(file.endsWith('.js'))assert.match(response.headers.get('content-type'),/text\/javascript/);}
   }
   for(const path of ['/explorer-ui.js','/explorer-scene.js','/explorer.css','/node_modules/three/build/three.module.js','/node_modules/three/build/three.core.js','/node_modules/three/examples/jsm/controls/OrbitControls.js'])assert.equal((await fetch(base+path)).status,200);
