@@ -40,7 +40,7 @@ test('tree follows recursive calls and reveals missing permutations in reversibl
     [2, 3, 1], [3, 1, 2],
   ]);
   assert.equal(broken.nodes.filter(node => node.children.length === 0).length, 6);
-  assert.ok(broken.nodes.some(node => Number.isInteger(node.skipAt)));
+  assert.ok(broken.nodes.every(node => node.skipAt === undefined));
   assert.equal(broken.links.length, broken.nodes.length - 1);
   for (const step of broken.steps.filter(step => step.type === 'enter')) {
     const node = broken.nodes[step.active];
@@ -50,6 +50,8 @@ test('tree follows recursive calls and reveals missing permutations in reversibl
     assert.ok(node.position.every(Number.isFinite));
   }
   const shared = broken.swaps.find(node => node.text === '[2, 1, 3]');
+  assert.equal(broken.steps[shared.skipAt].type, 'undo');
+  assert.equal(broken.steps[shared.skipAt].next, 2);
   assert.deepEqual(shared.children.map(node => node.detail), ['start 2 · i 1', 'start 1 · i 1']);
   assert.deepEqual(shared.children[1].children[0].array, [2, 3, 1]);
   assert.ok(broken.sceneLinks.some(([parent, child]) => parent === 0 && child === shared.id));

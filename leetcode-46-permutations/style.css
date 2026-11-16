@@ -64,7 +64,6 @@ main { max-width: none; padding-inline: clamp(12px, 2vw, 40px); }
 .tree-panel .legend .idle { background: #527ba7; --card-fill: #14283e; }
 .tree-panel .legend .current { background: #39dcff; --card-fill: #00546d; }
 .tree-panel .legend .stack-parent { background: #ffc53b; --card-fill: #694405; }
-.tree-panel .legend .visited { background: #bb7aff; --card-fill: #48267c; }
 .tree-panel .legend .goal { background: #50ef86; --card-fill: #075632; }
 .tree-panel .legend .jump { background: #ff526d; --card-fill: #7c1634; }
 .tree-panel .legend .ghost { background: #9399a3; --card-fill: #333841; }

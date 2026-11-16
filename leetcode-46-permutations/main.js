@@ -61,12 +61,11 @@ const playback = createPlayback(
     ({ nodes, sceneLinks: links, swaps } = trace);
     return trace.steps.map((step, frame) => ({ ...step, frame })).values();
   },
-  ({ type, start, i, next, array, stack, results, active, stackIds, seen, missing, frame }) => {
+  ({ type, start, i, next, array, stack, results, active, stackIds, missing, frame }) => {
     scene.update([...nodes, ...swaps].map(node => {
-      const state = typeof node.id === 'string' ? 'swap' : node.ghost ? 'ghost' : node.skipAt <= frame ? 'jump'
+      const state = node.skipAt <= frame ? 'jump' : typeof node.id === 'string' ? 'swap' : node.ghost ? 'ghost'
         : node.id === active ? 'current' : stackIds.includes(node.id) ? 'stack-parent'
-        : node.id >= seen ? 'idle'
-        : node.leaf && node.resultIndex < results.length ? 'goal' : 'visited';
+        : node.leaf && node.resultIndex < results.length ? 'goal' : 'idle';
       return { ...node, active: node.id === active, ...treeColors[state] };
     }), links);
     const inLoop = ['swap', 'recurse', 'undo'].includes(type);

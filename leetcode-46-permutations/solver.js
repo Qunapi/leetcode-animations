@@ -51,10 +51,7 @@ export function recursionTrace(values, useCandidate) {
 
   for (const step of permutationSteps(values, useCandidate)) {
     const depth = step.stack.length - 1;
-    if (step.type === 'recurse') {
-      incoming = step;
-      if (step.next > step.start + 1) path[depth].skipAt ??= steps.length;
-    }
+    if (step.type === 'recurse') incoming = step;
     if (step.type === 'enter') {
       const parent = path[depth - 1];
       const node = {
@@ -78,6 +75,7 @@ export function recursionTrace(values, useCandidate) {
       nodes.push(node);
       path[depth] = node;
     }
+    if (step.type === 'undo') path[depth + 1].returnedAt = steps.length;
     steps.push({ ...step, active: path[depth]?.id, stackIds: path.slice(0, depth + 1).map(node => node.id), seen: nodes.length, missing: [] });
   }
   if (useCandidate) {
@@ -126,6 +124,7 @@ export function recursionTrace(values, useCandidate) {
     if (!real) continue;
     const swap = {
       id: `swap:${real.id}`,
+      skipAt: real.returnedAt,
       text: real.text,
       detail: `Swap ${real.key.split('/').at(-1).replace(':', ' ↔ ')}`,
       position: [...real.position],

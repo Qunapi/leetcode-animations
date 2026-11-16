@@ -1,0 +1,14 @@
+#capacity { width: 6ch; }
+#operations { display: block; width: 100%; margin-top: 8px; font: 13px monospace; }
+#error { color: #ff9eae; }
+#buckets { padding: 16px 22px; }
+.bucket { padding: 10px; margin-bottom: 8px; border: 1px solid var(--border); border-radius: 8px; }
+.bucket.minimum { border-color: var(--purple); }
+.bucket h3 { margin: 0 0 6px; font: 14px monospace; }
+.bucket ul, #nodes { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 8px 0; list-style: none; }
+.bucket li, #nodes li { padding: 6px 8px; background: #263244; border: 1px solid var(--border); border-radius: 5px; font: 12px monospace; }
+.bucket .active, #nodes .active { border-color: var(--blue); color: var(--blue); }
+.bucket ul { gap: 6px 22px; }
+.bucket li { position: relative; }
+.bucket li + li::before { content: '↔'; position: absolute; left: -18px; color: var(--muted); }
+.bucket .sentinel { background: transparent; color: var(--muted); }

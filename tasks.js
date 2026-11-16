@@ -42,4 +42,10 @@ export const tasks = [
     features:['Prefix trie','Top three ranking','Learn new sentences'],
     files:['index.html','main.js','style.css','solver.js','code.js'],
   },
+  {
+    number:460,slug:'leetcode-460-lfu-cache',title:'LFU Cache',difficulty:'Hard',category:'Cache',language:'C#',symbol:'⇄',
+    description:'Follow frequency promotion and see how least recently used breaks ties during eviction.',
+    features:['Frequency buckets','MRU to LRU order','Live key dictionary'],
+    files:['index.html','main.js','solver.js','code.js','style.css'],
+  },
 ];
